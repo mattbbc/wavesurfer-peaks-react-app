@@ -12,12 +12,19 @@ export default class Waveform extends Component {
       container: this.$waveform,
       waveColor: "#999",
       progressColor: "#00ffaf",
+      // Change these lines to change the waveform's appearance. Remove them to present it in a normal waveform style.
       barWidth: 4,
-      barMinHeight: 1
+      barMinHeight: 1,
     });
 
-    // This call pulls the waveform data from the JSON file rather than generating on the fly
-    fetch('sample.json')
+    /*
+      This call pulls the waveform data from the fetched JSON file rather than generating on the fly.
+
+      Try these options:
+        - '07024205_full_normalised.json' for data generated using audiowaveform without any --pixels-per-second option set
+        - '07024205_non_full_normalised.json' for data generated using audiowaveform with --pixels-per-second option set at 20
+    */
+    fetch('07024205_full_normalised.json')
     .then(res => {
       return res.json();
     })
@@ -28,7 +35,7 @@ export default class Waveform extends Component {
       console.error('error', e);
     })
 
-    // This will make Wavesurfer load the sample and generate the waveform on the fly
+    // This will make Wavesurfer load the sample and generate the waveform on the fly. Use this instead of fetching the JSON file to see how long it takes
     // this.wavesurfer.load(this.props.src);
   }
 
