@@ -18,6 +18,10 @@ data = json_content["data"]
 digits = 2
 
 max_val = float(max(data))
+
+if max_val == 0:
+    max_val = 1
+
 new_data = []
 for x in data:
     new_data.append(round(x / max_val, digits))
