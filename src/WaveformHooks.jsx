@@ -5,6 +5,7 @@ import WaveSurfer from 'wavesurfer.js';
 function WaveformHooks({ src }) {
   const [wavesurferPlayer, setWavesurferPlayer] = useState(null);
   const [isLooping, setIsLooping] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const waveContainerRef = useRef();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ function WaveformHooks({ src }) {
     });
 
     setWavesurferPlayer(wavesurferInstance);
-  }, []);
+  }, [src]);
 
   useEffect(() => {
     if (wavesurferPlayer) {
@@ -46,10 +47,21 @@ function WaveformHooks({ src }) {
 
   }, [wavesurferPlayer, isLooping]);
 
+  const handlePlayClick = () => {
+    if (isPlaying) {
+      setIsPlaying(false);
+      wavesurferPlayer.pause();
+    } else {
+      setIsPlaying(true);
+      wavesurferPlayer.play();
+    }
+  }
+
   return (
     <div className="waveform">
-      <button onClick={() => wavesurferPlayer.play()}>Play</button>
+      <button onClick={handlePlayClick}>{isPlaying? 'Pause' : 'Play'}</button>
       <button onClick={() => setIsLooping(!isLooping)}>Loop</button>
+      <p>{isLooping ? 'Looping on' : 'Looping off'}</p>
       <div className="wave" ref={waveContainerRef}></div>
     </div>
   )
