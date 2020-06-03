@@ -4,8 +4,12 @@
 - `npm install`
 - `npm run start`
 
-### Notes
-- `/public` folder contains a JSON of the waveform information
-- Waveform information was generated using [audiowaveform](https://github.com/bbc/audiowaveform) as per the steps outlined in the [Wavesurfer FAQ Page](https://wavesurfer-js.org/faq/)
-- `src/scripts` folder contains the Python script used to normalise the audio data (taken from the Wavesurfer FAQ page)
-- `Waveform.jsx` is the main component. `componentDidMount` in the component contains two variants of loading the waveform data to illustrate the time difference between loading it from pre-processed data and loading it in real time.
+### Wavesurfer example
+Wavesurfer is implemented in both a class-based and a functional component. The waveform data it retrieves comes from the `/public` folder. Wavesurfer requires its waveform data to be normalised (i.e. in float range between -1 to +1). There are two sample files of waveform data in the `/public` folder to try:
+- **07024205_non_full_normalised.json** contains the waveform data of `07024205.mp3` with the `--pixels-per-second 20` option added to `audiowaveform` and then normalised by `scale-python.py` in `/src/scripts`. It was generated from the process suggested in the [Wavesurfer FAQ Page](https://wavesurfer-js.org/faq/).
+- **07024205_non_full_normalised.json** is as above but it was generated without the `--pixels-per-second` option. Still normalised.
+
+Amend the `Waveform.jsx` or `WaveformHooks.jsx` file to see what difference each waveform data file makes.
+
+### Peaks.js example
+Peaks.js is implemented in a functional component. It doesn't need normalised data to work, but it does not play well with data generated with `--pixels-per-second`. It uses the `07024205.json` data file in `/public` for its waveform data.
