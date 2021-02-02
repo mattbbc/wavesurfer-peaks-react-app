@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import WaveSurfer from 'wavesurfer.js';
 
 // Functional component version of Waveform.jsx
-function WaveformHooks({ src }) {
+function WaveformHooks({ src, ctx, dest }) {
   const [wavesurferPlayer, setWavesurferPlayer] = useState(null);
   const [isLooping, setIsLooping] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -11,25 +11,38 @@ function WaveformHooks({ src }) {
   useEffect(() => {
     const wavesurferInstance = WaveSurfer.create({
       container: waveContainerRef.current,
+      audioContext: ctx,
       waveColor: "#999",
       progressColor: "#00ffaf",
+      backend: "MediaElement",
       // Uncomment these lines to give the waveform a bar-like appearance
       // barWidth: 4,
       // barMinHeight: 1,
     });
 
-    fetch('07024205_non_full_normalised.json')
-    .then(res => {
-      return res.json();
-    })
-    .then(peaks => {
-      wavesurferInstance.load(src, peaks.data);
-    })
-    .catch(e => {
-      console.error('error', e);
-    });
+    // Create an audio element to feed to the wavesurfer instance and the web audio context
+    const audioElementToLoad = new Audio(src);
+    audioElementToLoad.preload = "metadata";
 
+    // Uncomment here to use pre-rendered peaks data
+    // fetch('07024205_non_full_normalised.json')
+    // .then(res => {
+    //   return res.json();
+    // })
+    // .then(peaks => {
+    //   wavesurferInstance.load(audioElementToLoad, peaks.data);
+    // })
+    // .catch(e => {
+    //   console.error('error', e);
+    // });
+
+    wavesurferInstance.load(audioElementToLoad);
     setWavesurferPlayer(wavesurferInstance);
+
+    // Connect audio element output to the audio context graph
+    var mediaElementSource = new MediaElementAudioSourceNode(wavesurferInstance.backend.ac, { mediaElement: audioElementToLoad });
+    mediaElementSource.connect(dest);
+    mediaElementSource.connect(wavesurferInstance.backend.ac.destination);
   }, [src]);
 
   useEffect(() => {
