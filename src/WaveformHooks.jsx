@@ -31,17 +31,19 @@ function WaveformHooks({ src }) {
       ]
     });
 
-    fetch('07024205_non_full_normalised.json')
-    .then(res => {
-      return res.json();
-    })
-    .then(peaks => {
-      wavesurferInstance.load(src, peaks.data);
-    })
-    .catch(e => {
-      console.error('error', e);
-    });
-
+    // Uncommenting this and commenting out the other load line (46) causes region to not show properly
+    // fetch('07024205_non_full_normalised.json')
+    // .then(res => {
+    //   return res.json();
+    // })
+    // .then(peaks => {
+    //   wavesurferInstance.load(src, peaks.data);
+    // })
+    // .catch(e => {
+    //   console.error('error', e);
+    // });
+    
+    wavesurferInstance.load(src);
     setWavesurferPlayer(wavesurferInstance);
   }, [src]);
 
