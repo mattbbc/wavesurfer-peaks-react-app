@@ -49,7 +49,7 @@ function WaveformHooks({ src }) {
     if (wavesurferPlayer) {
       if (isLooping) {
         wavesurferPlayer.on('finish', () => {
-          wavesurferPlayer.regions.list['region123'].play();
+          wavesurferPlayer.play();
         });
       } else {
         wavesurferPlayer.on('finish', () => {
@@ -66,7 +66,7 @@ function WaveformHooks({ src }) {
       wavesurferPlayer.pause();
     } else {
       setIsPlaying(true);
-      wavesurferPlayer.play();
+      wavesurferPlayer.regions.list['region123'].play();
     }
   }
 
