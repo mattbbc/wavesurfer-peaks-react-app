@@ -8,9 +8,9 @@ function App() {
   return (
     <div className="App">
       {/* Waveform display using Peaks.js */}
-      <PeaksPlayer />
+      {/* <PeaksPlayer /> */}
       {/* Waveform display using Wavesurfer.js */}
-      <Waveform src="07024205.mp3" />
+      {/* <Waveform src="07024205.mp3" /> */}
       <WaveformHooks src="07024205.mp3" />
     </div>
   );

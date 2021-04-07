@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import WaveSurfer from 'wavesurfer.js';
+import RegionsPlugin from 'wavesurfer.js/dist/plugin/wavesurfer.regions.js';
 
 // Functional component version of Waveform.jsx
 function WaveformHooks({ src }) {
@@ -16,6 +17,18 @@ function WaveformHooks({ src }) {
       // Uncomment these lines to give the waveform a bar-like appearance
       // barWidth: 4,
       // barMinHeight: 1,
+      plugins: [
+        RegionsPlugin.create({
+          regions: [
+            {
+              start: 20,
+              end: 25,
+              color: 'hsla(400, 100%, 30%, 0.5)',
+              id: 'region123'
+            }
+          ]
+        })
+      ]
     });
 
     fetch('07024205_non_full_normalised.json')
@@ -36,7 +49,7 @@ function WaveformHooks({ src }) {
     if (wavesurferPlayer) {
       if (isLooping) {
         wavesurferPlayer.on('finish', () => {
-          wavesurferPlayer.play();
+          wavesurferPlayer.regions.list['region123'].play();
         });
       } else {
         wavesurferPlayer.on('finish', () => {
